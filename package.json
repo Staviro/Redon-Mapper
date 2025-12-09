@@ -1,7 +1,7 @@
 {
   "name": "redon-mapper",
   "version": "1.0.0",
-  "description": "Redon is a lightweight, high-performance utility library for JavaScript designed to solve the perennial problem of normalizing and transforming inconsistent data structures from various RESTful APIs into a single, predictable schema.",
+  "description": "Redon Mapper is a lightweight, high-performance utility library for JavaScript designed to solve the perennial problem of normalizing and transforming inconsistent data structures from various RESTful APIs into a single, predictable schema.",
   "license": "ISC",
   "author": "Joseph Morukhuladi",
   "type": "module",
