@@ -26,6 +26,27 @@ export const RedonMapper = {
   },
 
   /**
+   * Helper function to safely set a value based on a dot-separated path.
+   */
+  setNestedValue(obj, path, value) {
+    const parts = path.split(".");
+    let current = obj;
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (i === parts.length - 1) {
+        // Last part, assign the value
+        current[part] = value;
+      } else {
+        // Not the last part, ensure the nested object exists
+        if (!current[part] || typeof current[part] !== "object") {
+          current[part] = {};
+        }
+        current = current[part];
+      }
+    }
+  },
+
+  /**
    * Maps a single source object based on a defined template.
    * @param {Object} sourceData The incoming object.
    * @param {Object<string, {sourceKeys: string[], defaultValue?: any, transform?: function}>} mappingTemplate
@@ -82,29 +103,29 @@ export const RedonMapper = {
       for (const sourceKey of possibleSourceKeys) {
         const value = RedonMapper.getValueByPath(source, sourceKey);
 
-        if (typeof value !== "undefined") {
+        if (typeof value !== "undefined" && value !== null) {
           matchedValue = value;
           isMatchFound = true;
           break;
         }
       }
 
-      if (isMatchFound || defaultValue) {
-        let finalValue = matchedValue;
-        let useValue = matchedValue ?? defaultValue;
+      if (isMatchFound || typeof defaultValue !== "undefined") {
+        let finalValue;
+        let useValue = isMatchFound ? matchedValue : defaultValue;
+        finalValue = useValue;
+
         if (typeof transform === "function") {
           try {
             finalValue = transform(useValue, source);
           } catch (e) {
             console.error(
-              `RedonMapper: Transform failed for key "${targetKey}" with value "${useValue}". Error:`,
+              `RedonMapper: Transform failed for key "${targetKey}". Error:`,
               e
             );
           }
         }
-        mappedResult[targetKey] = finalValue;
-      } else if (typeof defaultValue !== "undefined") {
-        mappedResult[targetKey] = defaultValue;
+        RedonMapper.setNestedValue(mappedResult, targetKey, finalValue);
       }
     }
 

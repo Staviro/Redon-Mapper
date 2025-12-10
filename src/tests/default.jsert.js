@@ -12,7 +12,7 @@ jsert.test(
     const data = RedonMapper.map(mockUsers, userTemplate);
     jsert.passWhen(
       this,
-      data.filter((x) => x.registeredDate.toString() === defaultDate.toString())
+      data.filter((x) => x.registeredDate.getTime() === defaultDate.getTime())
         .length > 0
     );
   }

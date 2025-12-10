@@ -1,7 +1,10 @@
 import { RedonMapper } from "../lib/redon-mapper.js";
 import { Jsert } from "../js/jsert.js";
 import { userTemplate } from "../templates/user.tmpl.js";
+import { mockUser } from "../mock/mock-user.js";
 import { mockUsers } from "../data/mock-users.js";
+import { mockBankAccounts } from "../mock/mock-bank-account.js";
+import { bankAccountTemplate } from "../templates/bank-account.tmpl.js";
 
 const jsert = new Jsert("Mapper Tests");
 
@@ -26,7 +29,31 @@ jsert.test(
     const registeredDateCount = data.filter(
       (x) => x.registeredDate != undefined
     ).length;
-    jsert.passWhen(this, registeredDateCount === data.length);
+    jsert.passWhenEquals(this, registeredDateCount, data.length);
+  }
+);
+
+jsert.test(
+  "After mapping, all mapped key value types must match template types",
+  function () {
+    const data = RedonMapper.map(mockUser, userTemplate);
+    const result =
+      typeof data.id === "string" &&
+      typeof data.username === "string" &&
+      typeof data.registeredDate === "object";
+    jsert.passWhenTruthy(this, result);
+  }
+);
+
+jsert.test(
+  "After mapping, registeredDate default value must be found in at least one record",
+  function () {
+    const defaultValue = new Date(userTemplate.registeredDate.defaultValue);
+    const data = RedonMapper.map(mockUsers, userTemplate);
+    const registeredDateCount = data.filter(
+      (x) => x.registeredDate.getTime() === defaultValue.getTime()
+    ).length;
+    jsert.passWhen(this, registeredDateCount > 0);
   }
 );
 
@@ -48,4 +75,25 @@ jsert.test(
   }
 );
 
+jsert.test(
+  "After mapping, the mapped bank accounts have must have valid ownerInfo objects as specified in the template",
+  function () {
+    const data = RedonMapper.map(mockBankAccounts, bankAccountTemplate);
+    const templateOwnerInfoKeysCount = Object.keys(bankAccountTemplate).filter(
+      (x) => x.includes("ownerInfo")
+    ).length;
+    let hasMatch = false;
+
+    for (const ba of data) {
+      const ownerInfo = ba.ownerInfo;
+      const ownerInfoKeysCount = Object.keys(ownerInfo).length;
+      if (ownerInfoKeysCount === templateOwnerInfoKeysCount) {
+        hasMatch = true;
+        break;
+      }
+    }
+
+    jsert.passWhenTruthy(this, hasMatch);
+  }
+);
 export const mapperJsert = jsert;
