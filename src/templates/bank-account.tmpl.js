@@ -30,24 +30,41 @@ export const bankAccountTemplate = {
       "CurrentBalance",
     ],
     defaultValue: 0.0,
+    transform: (value) => parseFloat(value),
   },
   "ownerInfo.isJointAccount": {
     sourceKeys: ["owners.is_multi_party", "joint_status", "isJoint"],
     defaultValue: false,
   },
   "ownerInfo.ownerId": {
-    sourceKeys: ["owners.primary.id", "primary_user_id"],
+    sourceKeys: [
+      "owners.primary.id",
+      "primary_user_id",
+      "owners.primary_user_id",
+    ],
   },
   "ownerInfo.firstName": {
-    sourceKeys: ["owners.primary.first_name", "PrimaryOwnerName"],
+    sourceKeys: [
+      "owners.primary.first_name",
+      "PrimaryOwnerName",
+      "owners.PrimaryOwnerName",
+    ],
     defaultValue: "N/A",
   },
   "ownerInfo.lastName": {
-    sourceKeys: ["owners.primary.last_name", "PrimaryOwnerSurname"],
+    sourceKeys: [
+      "owners.primary.last_name",
+      "PrimaryOwnerSurname",
+      "owners.owners.primary.last_name",
+    ],
     defaultValue: "N/A",
   },
   "ownerInfo.contactEmail": {
-    sourceKeys: ["owners.primary.email", "email_address"],
+    sourceKeys: [
+      "owners.primary.email",
+      "email_address",
+      "owners.owners.primary.email_address",
+    ],
     defaultValue: "",
   },
   lastActivityDate: {

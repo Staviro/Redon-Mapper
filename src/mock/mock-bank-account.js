@@ -27,7 +27,7 @@ export const mockBankAccounts = [
     swift_bic: "400497",
     ccy: "ZAR",
     state: "ACTIVE",
-    balance: 124395.78,
+    balance: "124395.78",
     joint_status: false,
     owners: {
       primary_user_id: "USER-78564",

@@ -172,10 +172,10 @@ export class Jsert {
   }
 
   run() {
-    let label = " - Completed In";
+    let label = " ~ Completed In";
     let b = this._blue();
     console.time(label);
-    console.log(`%c - Executing   :${this.group}`, b);
+    console.log(`%c ~ Executing   :${this.group}`, b);
     for (const t of this.tests) {
       t.test();
     }
@@ -194,7 +194,7 @@ export class Jsert {
 
   summary() {
     let style = this._green();
-    console.log(" - Generating summary");
+    console.log(" ~ Generating summary");
     console.log(
       `%cTests Executed :${this.passed.length + this.failed.length}`,
       style

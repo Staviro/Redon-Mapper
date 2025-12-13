@@ -96,4 +96,31 @@ jsert.test(
     jsert.passWhenTruthy(this, hasMatch);
   }
 );
+
+jsert.test(
+  "After mapping, the mapped bank account owner object must the expected owner object",
+  function () {
+    const id = "ACC-2-9E5N9B9YQ2H5L89N";
+    const account = mockBankAccounts.find((x) => x.id === id);
+    const response = RedonMapper.map(account, bankAccountTemplate);
+    const expected = {
+      accountId: "ACC-2-9E5N9B9YQ2H5L89N",
+      accountType: "CHECKING",
+      bankCode: "400497",
+      currentBalance: 124395.78,
+      currency: "ZAR",
+      status: "ACTIVE",
+      lastActivityDate: "2025-11-20T16:39:27.765Z",
+      ownerInfo: {
+        isJointAccount: false,
+        ownerId: "USER-78564",
+        firstName: "Sizwe",
+        lastName: "Zwane",
+        contactEmail: "sizwe.zwane1@mockbank.co.za",
+      },
+    };
+    jsert.passWhenMatch(this, response, expected);
+  }
+);
+
 export const mapperJsert = jsert;
