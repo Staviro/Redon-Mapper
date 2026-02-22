@@ -35,7 +35,7 @@ Example templates can be found at `/src/templates/`
 // Example Usage
 import { map } from "redon-mapper";
 
-const sourceData = { user_id: 1, first_name: "Alice", age: 30 };
+const sourceData = [{ user_id: 1, first_name: "Alice", age: 30 }];
 const template = {
   export const userTemplate = {
   id: {
@@ -62,11 +62,11 @@ const template = {
 
 const normalizedData = map(sourceData, template);
 /* normalizedData:
-{
+[{
   id: 'a1b2c3d4e5',
   username: 'jdoe_42',
   registeredDate: 2023-11-15T10:30:00.000Z
-}
+}]/*
 ```
 
 ## Happy Data Normalization!

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redon Mapper | Data Normalization Made Easy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D97D55;
+            --secondary: #F08787;
+            --accent: #696FC7;
+            --bg: #FFFFFF;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background-color: var(--bg);
+            scroll-behavior: smooth;
+        }
+
+        .bg-primary {
+            background-color: var(--primary);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .border-primary {
+            border-color: var(--primary);
+        }
+
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+
+        code {
+            font-family: ui-monospace, monospace;
+        }
+
+        .nav-link {
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        #mobile-menu {
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold tracking-tight text-primary">Redon Mapper</span>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#docs" class="nav-link">Documentation</a>
+                    <a href="https://github.com/Staviro/Redon-Mapper" target="_blank" class="nav-link">GitHub</a>
+                    <a href="https://iomushub.co.za" target="_blank" class="nav-link">Contact</a>
+                </div>
+                <!-- Mobile Toggle -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="p-2 rounded-md text-gray-600 hover:bg-gray-100 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden max-h-0 bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Home</a>
+                <a href="#docs"
+                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Documentation</a>
+                <a href="https://github.com/Staviro/Redon-Mapper" target="_blank"
+                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">GitHub</a>
+                <a href="https://iomushub.co.za" target="_blank"
+                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-50">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+                Normalize your data <br />
+                <span class="text-primary">with Precision.</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+                Redon Mapper is a lightweight, high-performance utility library for JavaScript designed to solve the
+                perennial problem of normalizing and transforming inconsistent data structures from various RESTful APIs
+                into a single, predictable schema.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#docs"
+                    class="bg-primary text-white px-8 py-4 rounded-xl font-bold hover:opacity-90 transition transform hover:-translate-y-1">
+                    Get
+                    Started
+                </a>
+                <a href="https://github.com/Staviro/Redon-Mapper" target="_blank"
+                    class="bg-gray-100 text-gray-800 px-8 py-4 rounded-xl font-bold hover:bg-gray-200 transition transform hover:-translate-y-1">
+                    View
+                    on GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Key Features -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-12">
+            <div class="p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3">High Performance</h3>
+                <p class="text-gray-600">
+                    Optimized reducer-based path drilling ensures minimal overhead even with
+                    complex nested objects.
+                </p>
+            </div>
+            <div class="p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+                <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04M12 21.303l-4.48-4.48M12 21.303l4.48-4.48" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Robust Safety</h3>
+                <p class="text-gray-600">
+                    Built-in error handling and default values prevent your application from
+                    crashing due to unexpected API responses.
+                </p>
+            </div>
+            <div class="p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+                <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Schema Evolution</h3>
+                <p class="text-gray-600">
+                    Easily map multiple legacy source keys to a single modern key to maintain
+                    compatibility across versions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <main id="docs" class="py-20 px-4 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-12">
+            <!-- Sticky Sidebar -->
+            <aside class="md:w-64 h-fit md:sticky md:top-24 hidden md:block">
+                <h4 class="font-bold text-sm uppercase tracking-widest text-gray-400 mb-4">Contents</h4>
+                <ul class="space-y-3 font-medium">
+                    <li><a href="#installation" class="text-accent hover:text-primary transition">Installation</a></li>
+                    <li><a href="#usage" class="text-accent hover:text-primary transition">Basic Usage</a></li>
+                    <li><a href="#advanced" class="text-accent hover:text-primary transition">Advanced Mapping</a></li>
+                    <li><a href="#api-ref" class="text-accent hover:text-primary transition">API Reference</a></li>
+                    <li><a href="#live-demo" class="text-accent hover:text-primary transition">Live Demo</a></li>
+                </ul>
+            </aside>
+
+            <div class="flex-1 space-y-16">
+                <!-- Installation -->
+                <section id="installation">
+                    <h2 class="text-3xl font-bold mb-6">Installation</h2>
+                    <p class="mb-4">
+                        Simply download the <code class="text-primary font-bold">redon-mapper.js</code> file
+                        and include it in your project via ES Modules.
+                    </p>
+                    <pre><code>import { RedonMapper } from './lib/redon-mapper.js';</code></pre>
+                </section>
+
+                <!-- Usage -->
+                <section id="usage">
+                    <h2 class="text-3xl font-bold mb-6">Basic Usage</h2>
+                    <p class="mb-4">
+                        Defining a template allows you to pick multiple source keys. The mapper will take
+                        the first one that exists.
+                    </p>
+                    <pre><code>const template = {
+    username: { 
+        sourceKeys: ["username", "user", "name"], 
+        defaultValue: "Anonymous" 
+    }
+};
+
+const rawData = { user: "joseph_m" };
+const result = RedonMapper.map(rawData, template);
+// Result: { username: "joseph_m" }</code></pre>
+                </section>
+
+                <!-- One-of-One Example -->
+                <section id="advanced">
+                    <h2 class="text-3xl font-bold mb-6">Real-World Normalization</h2>
+                    <p class="mb-4">
+                        Based on the <strong>One of One</strong> test scenario, here is how you handle
+                        inconsistent arrays from different API versions:
+                    </p>
+                    <pre><code>const apiResponse = [
+    { username: "mike_code", regDate: "2024-02-29T11:15:00Z" },
+    { user: "user1", registrationDate: "2024-01-15T09:30:00Z" }
+];
+
+const template = {
+    username: { sourceKeys: ["username", "user", "name"] },
+    registeredDate: {
+        sourceKeys: ["regDate", "registrationDate"],
+        transform: (value) => new Date(value)
+    }
+};
+
+const data = RedonMapper.map(apiResponse, template);</code></pre>
+                </section>
+
+                <!-- API Reference -->
+                <section id="api-ref">
+                    <h2 class="text-3xl font-bold mb-6">API Reference</h2>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-primary pl-4">
+                            <h4 class="font-bold text-lg">.map(source, template)</h4>
+                            <p class="text-gray-600">
+                                The main entry point. Automatically detects if <code class="bg-gray-100 p-1 rounded">
+                                source
+                            </code> is an object or an array and applies
+                                the appropriate mapping logic.
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-accent pl-4">
+                            <h4 class="font-bold text-lg">.getValueByPath(obj, path)</h4>
+                            <p class="text-gray-600">
+                                Safely retrieves deep nested values using dot notation (e.g.,
+                                "user.meta.id").
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-secondary pl-4">
+                            <h4 class="font-bold text-lg">.setNestedValue(obj, path, value)</h4>
+                            <p class="text-gray-600">
+                                Sets a value at a nested path, creating intermediate objects if
+                                they don't exist.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-primary mb-2">Redon Mapper</h3>
+                    <p class="text-gray-400">Lightweight data transformation for the modern web.</p>
+                </div>
+                <div class="flex space-x-6 text-gray-400 font-medium">
+                    <a href="https://github.com/Staviro/Redon-Mapper" target="_blank"
+                        class="hover:text-white transition">GitHub</a>
+                    <a href="https://iomushub.co.za" target="_blank" class="hover:text-white transition">Portfolio</a>
+                    <a href="https://iomushub.co.za" target="_blank" class="hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div
+                class="border-t border-gray-800 mt-10 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-500">
+                <p>&copy; 2026 Joseph Morukhuladi. Released under MIT License.</p>
+                <p>Version 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Scripts -->
+    <script type="module">
+        // Embed the RedonMapper logic directly for the demo
+        const RedonMapper = {
+            getValueByPath: (obj, path) => {
+                try {
+                    if (!obj || typeof obj !== "object" || !path) return undefined;
+                    return path.split(".").reduce((acc, key) => {
+                        if (acc && typeof acc === "object" && Object.prototype.hasOwnProperty.call(acc, key)) {
+                            return acc[key];
+                        }
+                        return undefined;
+                    }, obj);
+                } catch (err) { return undefined; }
+            },
+            setNestedValue(obj, path, value) {
+                const parts = path.split(".");
+                let current = obj;
+                parts.forEach((part, i) => {
+                    if (i === parts.length - 1) { current[part] = value; }
+                    else {
+                        if (!current[part] || typeof current[part] !== "object") { current[part] = {}; }
+                        current = current[part];
+                    }
+                });
+            },
+            _isPlainObject: (val) => val !== null && typeof val === "object" && !Array.isArray(val),
+            mapOne: (sourceData, mappingTemplate) => {
+                const source = RedonMapper._isPlainObject(sourceData) ? sourceData : {};
+                const mappedResult = {};
+                for (const [targetKey, rule] of Object.entries(mappingTemplate)) {
+                    const { sourceKeys, defaultValue, transform } = rule;
+                    let matchedValue;
+                    const found = sourceKeys.some((key) => {
+                        const val = RedonMapper.getValueByPath(source, key);
+                        if (val !== undefined && val !== null) { matchedValue = val; return true; }
+                        return false;
+                    });
+                    if (found || defaultValue !== undefined) {
+                        let finalValue = found ? matchedValue : defaultValue;
+                        if (typeof transform === "function") {
+                            try { finalValue = transform(finalValue, source); } catch (e) { }
+                        }
+                        RedonMapper.setNestedValue(mappedResult, targetKey, finalValue);
+                    }
+                }
+                return mappedResult;
+            },
+            map: (source, template) => {
+                if (Array.isArray(source)) {
+                    return source.filter(i => RedonMapper._isPlainObject(i)).map(i => RedonMapper.mapOne(i, template));
+                }
+                return RedonMapper.mapOne(source, template);
+            }
+        };
+
+        // UI Interactions
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            if (mobileMenu.style.maxHeight === '0px' || !mobileMenu.style.maxHeight) {
+                mobileMenu.style.maxHeight = '300px';
+            } else {
+                mobileMenu.style.maxHeight = '0px';
+            }
+        });
+
+        // Demo Functionality
+        const demoResponse = [
+            { username: "mike_code", id: "e5f6", regDate: "2024-02-29T11:15:00Z", userType: "admin" },
+            { user: "user1", userId: "a1b2", registrationDate: "2024-01-15T09:30:00Z", role: "user" },
+            { name: "user2", _id: "f1g2", _date: "2024-03-10T14:45:00Z", role: "editor" }
+        ];
+
+        const demoTemplate = {
+            username: { sourceKeys: ["username", "user", "name"] },
+            id: { sourceKeys: ["id", "userId", "_id"] },
+            joined: {
+                sourceKeys: ["regDate", "registrationDate", "_date"],
+                transform: (val) => new Date(val).toLocaleDateString()
+            },
+            role: { sourceKeys: ["userType", "role"], defaultValue: "guest" }
+        };
+
+        const sourceEl = document.getElementById('source-display');
+        const resultEl = document.getElementById('result-display');
+        const runBtn = document.getElementById('run-demo');
+
+    </script>
+</body>
+
+</html>
