@@ -1,11 +1,14 @@
 import { RedonMapper } from "../lib/redon-mapper.js";
-import { Jsert } from "../js/jsert.js";
+import { Jsert, JsertTargets } from "../js/jsert.js";
 import { userTemplate } from "../templates/user.tmpl.js";
 import { mockUsers } from "../data/mock-users.js";
 import { mockBankAccounts } from "../mock/mock-bank-account.js";
 import { bankAccountTemplate } from "../templates/bank-account.tmpl.js";
 
-const jsert = new Jsert("Default Tests");
+const jsert = new Jsert({
+  option: "Default Tests",
+  target: JsertTargets.terminal,
+});
 
 jsert.test(
   "registeredDate should return default value if not specified",
@@ -15,9 +18,9 @@ jsert.test(
     jsert.passWhen(
       this,
       data.filter((x) => x.registeredDate.getTime() === defaultDate.getTime())
-        .length > 0
+        .length > 0,
     );
-  }
+  },
 );
 
 jsert.test(
@@ -26,7 +29,7 @@ jsert.test(
     const data = RedonMapper.map(mockBankAccounts, bankAccountTemplate);
     const nullCurrencyCount = data.filter((x) => x.currency === null).length;
     jsert.passWhenEquals(this, nullCurrencyCount, 0);
-  }
+  },
 );
 
 jsert.test("all user balances must be of type 'number'", function () {

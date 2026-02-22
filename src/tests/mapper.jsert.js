@@ -1,12 +1,15 @@
 import { RedonMapper } from "../lib/redon-mapper.js";
-import { Jsert } from "../js/jsert.js";
+import { Jsert, JsertTargets } from "../js/jsert.js";
 import { userTemplate } from "../templates/user.tmpl.js";
 import { mockUser } from "../mock/mock-user.js";
 import { mockUsers } from "../data/mock-users.js";
 import { mockBankAccounts } from "../mock/mock-bank-account.js";
 import { bankAccountTemplate } from "../templates/bank-account.tmpl.js";
 
-const jsert = new Jsert("Mapper Tests");
+const jsert = new Jsert({
+  group: "Mapper Tests",
+  target: JsertTargets.terminal,
+});
 
 jsert.test(
   "After mapping, filters must return the same number of records when checking for the template keys",
@@ -17,9 +20,9 @@ jsert.test(
     const registeredDateCount = data.filter((x) => x.registeredDate).length;
     jsert.passWhen(
       this,
-      idCount === usernameCount && idCount === registeredDateCount
+      idCount === usernameCount && idCount === registeredDateCount,
     );
-  }
+  },
 );
 
 jsert.test(
@@ -27,10 +30,10 @@ jsert.test(
   function () {
     const data = RedonMapper.map(mockUsers, userTemplate);
     const registeredDateCount = data.filter(
-      (x) => x.registeredDate != undefined
+      (x) => x.registeredDate != undefined,
     ).length;
     jsert.passWhenEquals(this, registeredDateCount, data.length);
-  }
+  },
 );
 
 jsert.test(
@@ -42,7 +45,7 @@ jsert.test(
       typeof data.username === "string" &&
       typeof data.registeredDate === "object";
     jsert.passWhenTruthy(this, result);
-  }
+  },
 );
 
 jsert.test(
@@ -51,10 +54,10 @@ jsert.test(
     const defaultValue = new Date(userTemplate.registeredDate.defaultValue);
     const data = RedonMapper.map(mockUsers, userTemplate);
     const registeredDateCount = data.filter(
-      (x) => x.registeredDate.getTime() === defaultValue.getTime()
+      (x) => x.registeredDate.getTime() === defaultValue.getTime(),
     ).length;
     jsert.passWhen(this, registeredDateCount > 0);
-  }
+  },
 );
 
 jsert.test(
@@ -72,7 +75,7 @@ jsert.test(
       registeredDate: new Date("2024-02-29T11:15:00Z"),
     };
     jsert.passWhenMatch(this, response, expected);
-  }
+  },
 );
 
 jsert.test(
@@ -80,7 +83,7 @@ jsert.test(
   function () {
     const data = RedonMapper.map(mockBankAccounts, bankAccountTemplate);
     const templateOwnerInfoKeysCount = Object.keys(bankAccountTemplate).filter(
-      (x) => x.includes("ownerInfo")
+      (x) => x.includes("ownerInfo"),
     ).length;
     let hasMatch = false;
 
@@ -94,7 +97,7 @@ jsert.test(
     }
 
     jsert.passWhenTruthy(this, hasMatch);
-  }
+  },
 );
 
 jsert.test(
@@ -120,7 +123,7 @@ jsert.test(
       },
     };
     jsert.passWhenMatch(this, response, expected);
-  }
+  },
 );
 
 export const mapperJsert = jsert;

@@ -1,95 +1,120 @@
 /**
- *Jsert beta
- *(c) 2024 Joseph Morukhuladi
- *Licensed under MIT
+ * Jsert beta
+ * (c) 2026 Joseph Morukhuladi
+ * Licensed under MIT
  */
+
+const ESC = "\x1b";
+const RESET = `${ESC}[0m`;
+
+export const JsertTargets = {
+  console: "console",
+  terminal: "terminal",
+};
+
+const COLORS = {
+  reset: 0,
+  bold: 1,
+  dim: 2,
+  red: 31,
+  green: 32,
+  yellow: 33,
+  blue: 34,
+};
+
 export class Jsert {
   /**
    * Creates an instance of the Jsert class
-   * @param {string} group
+   * @param {object} options
    */
-  constructor(group) {
-    this.group = group;
+  constructor(options = {}) {
+    this.group = options.group || "Default Group";
+    this.target = options.target || JsertTargets.console;
     this.tests = [];
     this.passed = [];
     this.failed = [];
   }
 
+  /**
+   * Universal log method that handles target switching and tag grouping
+   */
+  _log(tag, message, colorKey) {
+    // Format the line with a consistent tag and colon
+    const line = `${this._pad(tag)} ${message}`;
+
+    if (this.target === JsertTargets.terminal) {
+      const code = COLORS[colorKey] || COLORS.reset;
+      console.log(`${ESC}[${code}m${line}${RESET}`);
+    } else {
+      const css = this._getCss(colorKey);
+      console.log(`%c${line}`, css);
+    }
+  }
+
+  _getCss(colorKey) {
+    const map = {
+      green: "color:#5f5; font-weight:bold;",
+      red: "color:#f55; font-weight:bold;",
+      blue: "color:#99f;",
+      yellow: "color:#ff5;",
+    };
+    return map[colorKey] || "";
+  }
+
+  /**
+   * Padded to a smaller length (8) to keep tags like [PASS] and [INFO] tight
+   */
+  _pad(val) {
+    return val.padEnd(5);
+  }
+
   pass(test) {
-    console.log(`%cTest Passed    :${test["name"]}`, this._green());
+    this._log("[PASS]", test["name"], "green");
     this.passed.push(test["name"]);
   }
 
   fail(test) {
-    console.log(`%cTest Failed    :${test["name"]}`, this._red());
+    this._log("[FAIL]", test["name"], "red");
     this.failed.push(test["name"]);
   }
 
-  /**
-   * Asserts that 'condition' is strictly equal
-   */
+  // --- ASSERTION LOGIC ---
+
   passWhen(test, condition) {
     if (condition === true) this.pass(test);
     else this.fail(test);
   }
 
-  /**
-   * Asserts that 'condition' is equal without stricly checking
-   */
   passWhenWithoutStrict(test, condition) {
     if (condition == true) this.pass(test);
     else this.fail(test);
   }
 
-  /**
-   * Asserts that 'actual' and 'expected' are strictly equal (===).
-   */
   passWhenEquals(test, actual, expected) {
     this.passWhen(test, actual === expected);
   }
 
-  /**
-   * Asserts that 'actual' and 'unexpected' are strictly NOT equal (!==).
-   */
   passWhenNotEquals(test, actual, unexpected) {
     this.passWhen(test, actual !== unexpected);
   }
 
-  /**
-   * Asserts that 'actual' is truthy (evaluates to true).
-   */
   passWhenTruthy(test, actual) {
     this.passWhen(test, !!actual);
   }
 
-  /**
-   * Asserts that 'actual' is falsy (evaluates to false).
-   */
   passWhenFalsy(test, actual) {
     this.passWhen(test, !actual);
   }
 
-  // --- NEW ASSERTION METHODS (Null, Undefined, and Type Checks) ---
-
-  /**
-   * Asserts that the value is strictly null.
-   */
   passWhenNull(test, actual) {
     this.passWhen(test, actual === null);
   }
 
-  /**
-   * Asserts that the value is not null.
-   */
   passWhenNotNull(test, actual) {
     this.passWhen(test, actual !== null);
   }
 
-  /**
-   * Asserts that the type of the 'actual' value matches the 'expectedType' string.
-   */
   passWhenTypeIs(test, actual, expectedType) {
-    // Special handling for Arrays since typeof array is 'object'
     if (expectedType.toLowerCase() === "array") {
       this.passWhen(test, Array.isArray(actual));
       return;
@@ -97,39 +122,24 @@ export class Jsert {
     this.passWhen(test, typeof actual === expectedType);
   }
 
-  /**
-   * Asserts that the collection has the specified length.
-   * Works for arrays and strings.
-   */
   passWhenHasLength(test, collection, expectedLength) {
-    // Ensure collection exists and has a length property
     const condition = collection && collection.length === expectedLength;
     this.passWhen(test, condition);
   }
 
-  /**
-   * Asserts that an array includes a specific item.
-   */
   passWhenIncludes(test, array, item) {
     const condition = Array.isArray(array) && array.includes(item);
     this.passWhen(test, condition);
   }
 
-  /**
-   * Asserts that an array or string is empty (length of zero).
-   */
   passWhenEmpty(test, collection) {
     const condition = collection && collection.length === 0;
     this.passWhen(test, condition);
   }
 
-  /**
-   * Asserts that 2 objects are a strict match
-   */
   isMatch = (obj1, obj2) => {
     if (obj1 === obj2) return true;
     if (Number.isNaN(obj1) && Number.isNaN(obj2)) return true;
-
     if (
       typeof obj1 !== "object" ||
       typeof obj2 !== "object" ||
@@ -140,8 +150,8 @@ export class Jsert {
 
     const isArray1 = Array.isArray(obj1);
     const isArray2 = Array.isArray(obj2);
-
     if (isArray1 !== isArray2) return false;
+
     if (isArray1) {
       if (obj1.length !== obj2.length) return false;
       for (let i = 0; i < obj1.length; i++) {
@@ -152,7 +162,6 @@ export class Jsert {
 
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
-
     if (keys1.length !== keys2.length) return false;
 
     for (const key of keys1) {
@@ -162,7 +171,6 @@ export class Jsert {
       )
         return false;
     }
-
     return true;
   };
 
@@ -171,39 +179,37 @@ export class Jsert {
     else this.fail(test);
   }
 
+  // --- EXECUTION & SUMMARY ---
+
   run() {
-    let label = " ~ Completed In";
-    let b = this._blue();
+    const label = "[INFO] Time Taken";
     console.time(label);
-    console.log(`%c ~ Executing   :${this.group}`, b);
+
+    this._log("[INFO]", `Executing: ${this.group}`, "blue");
+
     for (const t of this.tests) {
       t.test();
     }
+
     this.summary();
-    console.timeEnd(label, this._green());
+    console.timeEnd(label);
     console.log();
-    this.reset();
+    return this;
   }
 
   test(name, test) {
-    this.tests.push({
-      name,
-      test,
-    });
+    this.tests.push({ name, test });
   }
 
   summary() {
-    let style = this._green();
-    console.log(" ~ Generating summary");
-    console.log(
-      `%cTests Executed :${this.passed.length + this.failed.length}`,
-      style
-    );
-    console.log(`%cTests Passed   :${this.passed.length}`, style);
-    console.log(
-      `%cTests Failed   :${this.failed.length}`,
-      this.failed.length > 0 ? this._red() : style
-    );
+    this._log("[INFO]", "Generating Summary", "reset");
+    const total = this.passed.length + this.failed.length;
+
+    this._log("[INFO]", `Tests Executed: ${total}`, "green");
+    this._log("[INFO]", `Tests Passed  : ${this.passed.length}`, "green");
+
+    const failColor = this.failed.length > 0 ? "red" : "green";
+    this._log("[INFO]", `Tests Failed  : ${this.failed.length}`, failColor);
   }
 
   reset() {
@@ -213,13 +219,14 @@ export class Jsert {
     this.tests = [];
   }
 
-  _green() {
-    return "color:#5f5;";
-  }
-  _red() {
-    return "color:#f55;";
-  }
-  _blue() {
-    return "color:#99f;";
+  getJSONReport() {
+    return {
+      report: {
+        group: this.group,
+        totalTests: this.passed.length + this.failed.length,
+        passed: this.passed.length,
+        failed: this.failed.length,
+      },
+    };
   }
 }
