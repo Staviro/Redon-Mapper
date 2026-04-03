@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {RedonMapper} from "../lib/redon-mapper.js"
 import {Jsert, JsertTargets} from "../js/jsert.mjs"
 import {userTemplate} from "../templates/user.tmpl.js"
@@ -32,41 +31,6 @@ jsert.test(
 		jsert.passWhenEquals(this, nullCurrencyCount, 0)
 	}
 )
-=======
-import { RedonMapper } from "../lib/redon-mapper.js";
-import { Jsert, JsertTargets } from "../js/jsert.js";
-import { userTemplate } from "../templates/user.tmpl.js";
-import { mockUsers } from "../data/mock-users.js";
-import { mockBankAccounts } from "../mock/mock-bank-account.js";
-import { bankAccountTemplate } from "../templates/bank-account.tmpl.js";
-
-const jsert = new Jsert({
-  option: "Default Tests",
-  target: JsertTargets.terminal,
-});
-
-jsert.test(
-  "registeredDate should return default value if not specified",
-  function () {
-    const defaultDate = new Date(userTemplate.registeredDate.defaultValue);
-    const data = RedonMapper.map(mockUsers, userTemplate);
-    jsert.passWhen(
-      this,
-      data.filter((x) => x.registeredDate.getTime() === defaultDate.getTime())
-        .length > 0,
-    );
-  },
-);
-
-jsert.test(
-  "currency should never be null if default value is set",
-  function () {
-    const data = RedonMapper.map(mockBankAccounts, bankAccountTemplate);
-    const nullCurrencyCount = data.filter((x) => x.currency === null).length;
-    jsert.passWhenEquals(this, nullCurrencyCount, 0);
-  },
-);
->>>>>>> 8da77bf81d09833965633429dc9bdd3c70dfa25f
 
 jsert.test("all user balances must be of type 'number'", function () {
 	const data = RedonMapper.map(mockBankAccounts, bankAccountTemplate)
