@@ -1,4 +1,4 @@
-import {RedonMapper} from "../lib/redon-mapper.js"
+import {RedonMapper} from "../lib/redon-mapper.mjs"
 import {Jsert, JsertTargets} from "../js/jsert.mjs"
 import {mockUser} from "../mock/mock-user.js"
 import {userTemplate} from "../templates/user.tmpl.js"

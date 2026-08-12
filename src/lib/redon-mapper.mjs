@@ -131,7 +131,7 @@
  * ================================================================
  */
 
-const RedonMapper = {
+export const RedonMapper = {
 
     /**
      * Safely retrieves a value from an object using

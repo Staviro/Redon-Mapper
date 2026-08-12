@@ -1,5 +1,5 @@
 import {Jsert, JsertTargets} from "../js/jsert.mjs"
-import {RedonMapper} from "../lib/redon-mapper.js"
+import {RedonMapper} from "../lib/redon-mapper.mjs"
 
 const apiResponse = [
 	{
